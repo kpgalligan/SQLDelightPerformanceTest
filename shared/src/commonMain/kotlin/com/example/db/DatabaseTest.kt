@@ -4,13 +4,15 @@ import comexampledb.Project
 
 class DatabaseTest {
 
-    val database = TestDatabase(DriverFactory().createDriver())
+    val driver = DriverFactory().createDriver()
+    val database = TestDatabase(driver)
+    val queries = database.dataQueries
+
+    fun clearTable() {
+        queries.clearProjectsTable()
+    }
 
     fun createProjects() {
-        val queries = database.dataQueries
-
-        queries.clearProjectsTable()
-
         database.transaction {
             for (i in 0 until 100000) {
                 queries.createProject("Project $i")
@@ -19,7 +21,14 @@ class DatabaseTest {
     }
 
     fun fetchProjects(): List<Project> {
-        return database.dataQueries.fetchProjects().executeAsList()
+        return queries.fetchProjects().executeAsList()
     }
 
+    fun createProjectsDirectEx() {
+        createProjectsDirect()
+    }
 }
+
+expect fun createProjectsDirect()
+
+expect fun fetchProjectsDirect()

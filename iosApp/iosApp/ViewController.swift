@@ -18,17 +18,30 @@ class ViewController: UIViewController {
         
         print("\n=== Kotlin ===\n")
 
+        let dt = DatabaseTest()
+        dt.clearTable()
+        
         print("start createProjects()")
         var startDate = Date()
-        DatabaseTest().createProjects()
+        dt.createProjects()
         var endDate = Date()
         print("createProjects() elapsed time", endDate.timeIntervalSince(startDate))
 
         print("start fetchProjects()")
         startDate = Date()
-        let kotlinProjects = DatabaseTest().fetchProjects()
+        let kotlinProjects = dt.fetchProjects()
         endDate = Date()
         print("fetchProjects() elapsed time \(endDate.timeIntervalSince(startDate)), count: \(kotlinProjects.count)")
+        
+        dt.clearTable()
+        
+        print("start createProjectsDirect()")
+        var startDate2 = Date()
+        dt.createProjectsDirectEx()
+        var endDate2 = Date()
+        let totalDirect = dt.fetchProjects().count
+        print("createProjectsDirect() elapsed time", endDate2.timeIntervalSince(startDate2))
+        print("direct total (just checking) \(totalDirect)")
         
         print("\n=== CPP ===\n")
         
